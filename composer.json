@@ -1,0 +1,23 @@
+{
+    "name": "integration-helper/integration-version-laravel",
+    "description": "Integration Helper with Version Data Laravel",
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "konekt/concord": "^1.2",
+        "integration-helper/integration-version": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "IntegrationHelper\\IntegrationVersionLaravel\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "IntegrationHelper\\IntegrationVersionLaravel\\Providers\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev"
+}
