@@ -1,12 +1,11 @@
 {
     "name": "integration-helper/integration-version-laravel",
-    "description": "Integration Helper with Version Data Laravel",
+    "description": "Integration Helper with Version Laravel",
     "license": "MIT",
     "require": {
         "php": "^8.2",
         "konekt/concord": "^1.2",
-        "integration-helper/integration-version": "*",
-        "integration-helper/integration-version-laravel": "v1.0.4"
+        "integration-helper/integration-version": "*"
     },
     "autoload": {
         "psr-4": {
