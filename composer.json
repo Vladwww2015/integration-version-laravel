@@ -5,7 +5,8 @@
     "require": {
         "php": "^8.2",
         "konekt/concord": "^1.2",
-        "integration-helper/integration-version": "*"
+        "integration-helper/integration-version": "*",
+        "integration-helper/integration-version-laravel": "v1.0.4"
     },
     "autoload": {
         "psr-4": {
