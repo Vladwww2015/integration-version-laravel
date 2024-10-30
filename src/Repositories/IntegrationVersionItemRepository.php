@@ -94,9 +94,14 @@ class IntegrationVersionItemRepository extends Repository implements Integration
         return $this;
     }
 
-    public function updateAll(array $values): IntegrationVersionItemRepositoryInterface
+    /**
+     * @param array $values
+     * @param int $parentId
+     * @return IntegrationVersionItemRepositoryInterface
+     */
+    public function updateAll(array $values, int $parentId): IntegrationVersionItemRepositoryInterface
     {
-        $this->getModel()->update($values);
+        $this->getModel()->where('parent_id', '=', $parentId)->update($values);
 
         return $this;
     }
