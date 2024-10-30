@@ -22,12 +22,12 @@ class IntegrationVersion
         'table_name'
     ];
 
-    public function getId(): int
+    public function getIdValue(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id): IntegrationVersionInterface
+    public function setIdValue(int $id): IntegrationVersionInterface
     {
         $this->id = $id;
 

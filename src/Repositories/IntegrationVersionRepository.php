@@ -55,7 +55,7 @@ class IntegrationVersionRepository extends Repository implements IntegrationVers
     {
         $item->setChecksumColumns($item->getChecksumColumns());
 
-        $this->update($item->getAttributes(), $item->getId());
+        $this->update($item->getAttributes(), $item->getIdValue());
 
         return $item;
     }

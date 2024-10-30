@@ -24,7 +24,7 @@ class IntegrationVersionItem
     /**
      * @return int
      */
-    public function getId(): int
+    public function getIdValue(): int
     {
         return (int) $this->id;
     }
@@ -33,7 +33,7 @@ class IntegrationVersionItem
      * @param int $id
      * @return IntegrationVersionItemInterface
      */
-    public function setId(int $id): IntegrationVersionItemInterface
+    public function setIdValue(int $id): IntegrationVersionItemInterface
     {
         $this->id = $id;
 
