@@ -45,7 +45,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-
+        $this->registerConfig();
     }
 
     /**
@@ -73,5 +73,17 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                ->setHashGenerator($app->make(HashGeneratorInterface::class));
        } catch (\Exception $e) {
        }
+    }
+
+    /**
+     * Register package config.
+     *
+     * @return void
+     */
+    protected function registerConfig()
+    {
+        $this->mergeConfigFrom(
+            dirname(__DIR__) . '/Config/acl.php', 'acl'
+        );
     }
 }

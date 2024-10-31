@@ -2,6 +2,7 @@
 
 namespace IntegrationHelper\IntegrationVersionLaravel\Repositories;
 
+use IntegrationHelper\IntegrationVersionLaravel\Models\IntegrationVersionItem;
 use Webkul\Core\Eloquent\Repository;
 use IntegrationHelper\IntegrationVersion\Model\IntegrationVersionItemInterface;
 use IntegrationHelper\IntegrationVersion\Repository\IntegrationVersionItemRepositoryInterface;
@@ -61,12 +62,18 @@ class IntegrationVersionItemRepository extends Repository implements Integration
         $model = $this->getModel();
         $page = ($page - 1);
         $offset = $page <= 0 ? 0 : $page * $limit;
-        return $model
+        $model
             ->where('parent_id', '=', $parentId)
             ->where('version_hash', '!=', $oldExternalHash)
+            ->where('status', '=', IntegrationVersionItem::STATUS_SUCCESS)
             ->where('updated_at', '>', $updatedAt)
-            ->limit($limit)
-            ->offset($offset);
+            ->limit($limit);
+
+        if($offset) {
+            $model->offset($offset);
+        }
+
+        return $model->get('identity_value');
     }
 
     /**
