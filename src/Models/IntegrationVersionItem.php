@@ -71,9 +71,10 @@ class IntegrationVersionItem
      * @param string $versionHash
      * @return IntegrationVersionItemInterface
      */
-    public function setVersionHash(string $versionHash): IntegrationVersionItemInterface
+    public function setVersionHash(string $versionHash, string $hashDateTime): IntegrationVersionItemInterface
     {
         $this->version_hash = $versionHash;
+        $this->setHashDateTime($hashDateTime);
 
         return $this;
     }
@@ -150,6 +151,18 @@ class IntegrationVersionItem
     public function setStatus(string $status): IntegrationVersionItemInterface
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getHashDateTime(): string
+    {
+        return $this->hash_date_time;
+    }
+
+    protected function setHashDateTime(string $hashDateTime): IntegrationVersionItemInterface
+    {
+        $this->hash_date_time = $hashDateTime;
 
         return $this;
     }

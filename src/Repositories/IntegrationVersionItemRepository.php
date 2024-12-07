@@ -65,7 +65,7 @@ class IntegrationVersionItemRepository extends Repository implements Integration
             ->where('parent_id', '=', $parentId)
             ->where('version_hash', '!=', $oldExternalHash)
             ->where('status', '=', IntegrationVersionItem::STATUS_SUCCESS)
-            ->where('updated_at', '>', $updatedAt)
+            ->where('hash_date_time', '>', $updatedAt)
             ->orderBy('identity_value');
 
         $query->limit($limit);

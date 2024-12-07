@@ -19,7 +19,8 @@ class IntegrationVersion
         'hash',
         'source',
         'status',
-        'table_name'
+        'table_name',
+        'hash_date_time'
     ];
 
     public function getIdValue(): int
@@ -63,9 +64,10 @@ class IntegrationVersion
         return $this->hash;
     }
 
-    public function setHash(string $hash): IntegrationVersionInterface
+    public function setHash(string $hash, string $hashDateTime): IntegrationVersionInterface
     {
         $this->hash = $hash;
+        $this->setHashDateTime($hashDateTime);
 
         return $this;
     }
@@ -99,9 +101,21 @@ class IntegrationVersion
         return $this->updated_at;
     }
 
+    public function getHashDateTime(): string
+    {
+        return $this->hash_date_time;
+    }
+
     public function setUpdatedAtValue(string $updatedAt): IntegrationVersionInterface
     {
         $this->updated_at = $updatedAt;
+
+        return $this;
+    }
+
+    protected function setHashDateTime(string $hashDateTime): IntegrationVersionInterface
+    {
+        $this->hash_date_time = $hashDateTime;
 
         return $this;
     }
