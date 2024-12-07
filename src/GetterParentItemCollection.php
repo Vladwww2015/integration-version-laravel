@@ -24,6 +24,8 @@ class GetterParentItemCollection implements GetterParentItemCollectionInterface
     {
         $queryBuilder = DB::connection()->table($table);
 
+        $queryBuilder->where($identityColumn, '=', $identityValue);
+
         return $queryBuilder->get([...$columns, $identityColumn]);
     }
 }
