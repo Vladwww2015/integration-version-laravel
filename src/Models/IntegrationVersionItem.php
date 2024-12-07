@@ -17,6 +17,7 @@ class IntegrationVersionItem
         'version_hash',
         'checksum',
         'status',
+        'hash_date_time'
     ];
 
     public $table = self::TABLE;
