@@ -59,21 +59,20 @@ class IntegrationVersionItemRepository extends Repository implements Integration
         /**
          * @var $model \IntegrationHelper\IntegrationVersionLaravel\Models\IntegrationVersionItem
          */
-        $model = $this->getModel();
         $page = ($page - 1);
         $offset = $page <= 0 ? 0 : $page * $limit;
-        $model
+        $query = $this->getModel()
             ->where('parent_id', '=', $parentId)
             ->where('version_hash', '!=', $oldExternalHash)
             ->where('status', '=', IntegrationVersionItem::STATUS_SUCCESS)
-            ->where('updated_at', '>', $updatedAt)
-            ->limit($limit);
+            ->where('updated_at', '>', $updatedAt);
 
+        $query->limit($limit);
         if($offset) {
-            $model->offset($offset);
+            $query->offset($offset);
         }
 
-        return $model->get('identity_value');
+        return $query->get('identity_value');
     }
 
     /**
@@ -119,8 +118,8 @@ class IntegrationVersionItemRepository extends Repository implements Integration
             ->where('parent_id', '=', $parentId)
             ->where('status', '!=', IntegrationVersionItemInterface::STATUS_SUCCESS)
             ->update([
-            'status' => IntegrationVersionItemInterface::STATUS_DELETED
-        ]);
+                'status' => IntegrationVersionItemInterface::STATUS_DELETED
+            ]);
 
         return $this;
     }
