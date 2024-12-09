@@ -49,12 +49,12 @@ class IntegrationVersionItemRepository extends Repository implements Integration
     /**
      * @param int $parentId
      * @param string $oldExternalHash
-     * @param string $updatedAt
+     * @param string $oldHashDateTime
      * @param int $page
      * @param int $limit
      * @return array
      */
-    public function getIdentitiesForNewestVersions(int $parentId, string $oldExternalHash, string $updatedAt, int $page = 1, int $limit = 10000): iterable
+    public function getIdentitiesForNewestVersions(int $parentId, string $oldExternalHash, string $oldHashDateTime, int $page = 1, int $limit = 10000): iterable
     {
         /**
          * @var $model \IntegrationHelper\IntegrationVersionLaravel\Models\IntegrationVersionItem
@@ -65,7 +65,7 @@ class IntegrationVersionItemRepository extends Repository implements Integration
             ->where('parent_id', '=', $parentId)
             ->where('version_hash', '!=', $oldExternalHash)
             ->where('status', '=', IntegrationVersionItem::STATUS_SUCCESS)
-            ->where('hash_date_time', '>', $updatedAt)
+            ->where('hash_date_time', '>', $oldHashDateTime)
             ->orderBy('identity_value');
 
         $query->limit($limit);
@@ -123,5 +123,14 @@ class IntegrationVersionItemRepository extends Repository implements Integration
             ]);
 
         return $this;
+    }
+
+
+    public function getDeletedIdentities(int $parentId, array $identitiesForCheck, string $identityColumn): array
+    {
+        $this->getModel()
+            ->where('parent_id', '=', $parentId)
+            ->whereIn($identityColumn, $identitiesForCheck);
+
     }
 }

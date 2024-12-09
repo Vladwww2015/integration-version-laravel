@@ -103,7 +103,7 @@ class IntegrationVersion
 
     public function getHashDateTime(): string
     {
-        return $this->hash_date_time;
+        return $this->hash_date_time ?: '';
     }
 
     public function setUpdatedAtValue(string $updatedAt): IntegrationVersionInterface

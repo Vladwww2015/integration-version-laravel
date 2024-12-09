@@ -158,7 +158,7 @@ class IntegrationVersionItem
 
     public function getHashDateTime(): string
     {
-        return $this->hash_date_time;
+        return $this->hash_date_time ?: '';
     }
 
     protected function setHashDateTime(string $hashDateTime): IntegrationVersionItemInterface
