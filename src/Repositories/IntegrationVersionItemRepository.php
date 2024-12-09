@@ -128,9 +128,11 @@ class IntegrationVersionItemRepository extends Repository implements Integration
 
     public function getDeletedIdentities(int $parentId, array $identitiesForCheck, string $identityColumn): array
     {
-        $this->getModel()
-            ->where('parent_id', '=', $parentId)
-            ->whereIn($identityColumn, $identitiesForCheck);
-
+        return array_diff($identitiesForCheck, $this->findWhere([
+            'parent_id' => $parentId,
+            $identityColumn => [
+                $identityColumn, 'IN', $identitiesForCheck
+            ]
+        ])->pluck($identityColumn)->toArray());
     }
 }
