@@ -135,4 +135,11 @@ class IntegrationVersionItemRepository extends Repository implements Integration
             ]
         ])->pluck($identityColumn)->toArray());
     }
+
+    public function getItemsWithDeletedStatus(): iterable
+    {
+        return $this->findWhere([
+            'status' => IntegrationVersionItemInterface::STATUS_DELETED
+        ]);
+    }
 }
