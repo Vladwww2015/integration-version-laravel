@@ -7,11 +7,22 @@ use IntegrationHelper\IntegrationVersion\GetterParentItemCollectionInterface;
 
 class GetterParentItemCollection implements GetterParentItemCollectionInterface
 {
-    public function getItems(string $table, string $identityColumn, array $columns, int $page = 1, int $limit = 10000): iterable
+    public function getItems(string $table, string $identityColumn, array $columns, int $page = 1, int $limit = 50000): iterable
     {
         $offset = (($page - 1) <= 0 ? 0 : $page - 1) * $limit;
 
         $queryBuilder = DB::connection()->table($table);
+
+        if(function_exists('core')) { //TODO
+            try {
+                $core = core();
+                if(is_object($core) && method_exists($core, 'getProductSourceGroupPriceAlgorithm')) {
+                    $queryBuilder->orderBy('product_id')
+                        ->groupBy('product_id');
+                }
+            } catch (\Throwable $e) {}
+        }
+
         if($offset) {
             $queryBuilder->offset($offset);
         }

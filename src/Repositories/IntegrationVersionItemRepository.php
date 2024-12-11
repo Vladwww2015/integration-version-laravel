@@ -54,7 +54,7 @@ class IntegrationVersionItemRepository extends Repository implements Integration
      * @param int $limit
      * @return array
      */
-    public function getIdentitiesForNewestVersions(int $parentId, string $oldExternalHash, string $oldHashDateTime, int $page = 1, int $limit = 10000): iterable
+    public function getIdentitiesForNewestVersions(int $parentId, string $oldExternalHash, string $oldHashDateTime, int $page = 1, int $limit = 50000): iterable
     {
         /**
          * @var $model \IntegrationHelper\IntegrationVersionLaravel\Models\IntegrationVersionItem
