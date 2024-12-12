@@ -18,7 +18,7 @@ class GetterParentItemCollection implements GetterParentItemCollectionInterface
                 $core = core();
                 if(is_object($core) && method_exists($core, 'getProductSourceGroupPriceAlgorithm')) {
                     $queryBuilder->orderBy('product_id')
-                        ->groupBy('product_id');
+                        ->groupBy('product_id', 'customer_group_id');
                 }
             } catch (\Throwable $e) {}
         }
