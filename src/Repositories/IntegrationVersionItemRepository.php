@@ -96,7 +96,7 @@ class IntegrationVersionItemRepository extends Repository implements Integration
      */
     public function deleteByIds(array $ids): IntegrationVersionItemRepositoryInterface
     {
-        $this->deleteWhere(['id' => $ids]);
+        $this->deleteWhere(['id' => ['id', 'IN', $ids]]);
 
         return $this;
     }
@@ -138,8 +138,19 @@ class IntegrationVersionItemRepository extends Repository implements Integration
 
     public function getItemsWithDeletedStatus(): iterable
     {
-        return $this->findWhere([
-            'status' => IntegrationVersionItemInterface::STATUS_DELETED
-        ]);
+        /**
+         * @var $model IntegrationVersionItem
+         */
+        $model = $this->getModel();
+        $page = 1;
+        while(true) {
+            $items = $model->query()
+                ->where('status', IntegrationVersionItemInterface::STATUS_DELETED)
+                ->forPage($page++, 10000)
+                ->get();
+            if(!$items->count()) break;
+
+            yield $items;
+        }
     }
 }
