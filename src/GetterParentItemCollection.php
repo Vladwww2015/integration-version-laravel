@@ -13,16 +13,6 @@ class GetterParentItemCollection implements GetterParentItemCollectionInterface
 
         $queryBuilder = DB::connection()->table($table);
 
-        if(function_exists('core')) { //TODO
-            try {
-                $core = core();
-                if(is_object($core) && method_exists($core, 'getProductSourceGroupPriceAlgorithm')) {
-                    $queryBuilder->orderBy('product_id')
-                        ->groupBy('product_id', 'customer_group_id');
-                }
-            } catch (\Throwable $e) {}
-        }
-
         if($offset) {
             $queryBuilder->offset($offset);
         }

@@ -67,7 +67,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                ->setDateTime($app->make(DateTimeInterface::class))
                ->setIntegrationVersionItemRepository($app->make(IntegrationVersionItemRepositoryInterface::class))
                ->setIntegrationVersionRepository($app->make(IntegrationVersionRepositoryInterface::class))
-               ->setGetterParentItemCollection($app->make(GetterParentItemCollectionInterface::class))
+               ->setGetterParentItemCollection('default_getter_parent_item_collection', $app->make(GetterParentItemCollectionInterface::class))
                ->setIntegrationVersionManager($app->make(IntegrationVersionManagerInterface::class))
                ->setIntegrationVersionItemManager($app->make(IntegrationVersionItemManagerInterface::class))
                ->setHashGenerator($app->make(HashGeneratorInterface::class));
