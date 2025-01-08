@@ -29,6 +29,13 @@ class IntegrationVersionItemRepository extends Repository implements Integration
     {
         if(!$identityValues) return [];
 
+        if(count($identityValues) === 1) {
+            return $this->findWhere([
+                'parent_id' => $parentId,
+                'identity_value' => current($identityValues)
+            ]);
+        }
+
         return $this->findWhere([
             'parent_id' => $parentId,
             'identity_value' => [
@@ -108,19 +115,26 @@ class IntegrationVersionItemRepository extends Repository implements Integration
      */
     public function updateAll(array $values, int $parentId): IntegrationVersionItemRepositoryInterface
     {
-        $this->getModel()->where('parent_id', '=', $parentId)->update($values);
+        $this->getModel()
+            ->where('parent_id', '=', $parentId)
+            ->update($values);
 
         return $this;
     }
 
-    public function setStatusDeletedIfNotSuccess(int $parentId): IntegrationVersionItemRepositoryInterface
+    public function setStatusDeletedIfNotSuccess(int $parentId, string $identityValue = ''): IntegrationVersionItemRepositoryInterface
     {
-        $this->getModel()
+        $queryBuilder = $this->getModel()
             ->where('parent_id', '=', $parentId)
-            ->where('status', '!=', IntegrationVersionItemInterface::STATUS_SUCCESS)
-            ->update([
-                'status' => IntegrationVersionItemInterface::STATUS_DELETED
-            ]);
+            ->where('status', '!=', IntegrationVersionItemInterface::STATUS_SUCCESS);
+
+        if($identityValue) {
+            $queryBuilder->where('identity_value', '=', $identityValue);
+        }
+
+        $queryBuilder->update([
+            'status' => IntegrationVersionItemInterface::STATUS_DELETED
+        ]);
 
         return $this;
     }
