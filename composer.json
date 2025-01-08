@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.2",
         "konekt/concord": "^1.2",
-        "integration-helper/integration-version": "1.0.19"
+        "integration-helper/integration-version": "~1.0.20"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +20,5 @@
         }
     },
     "minimum-stability": "dev",
-    "version": "1.0.21"
+    "version": "1.0.22"
 }
