@@ -104,7 +104,7 @@ class IntegrationVersionItem
      */
     public function getChecksum(): string
     {
-        return $this->checksum;
+        return (string) $this->checksum;
     }
 
     /**
