@@ -107,7 +107,6 @@ class IntegrationVersionItemRepository extends Repository implements Integration
 
         return $this;
     }
-
     /**
      * @param array $values
      * @param int $parentId
@@ -115,26 +114,50 @@ class IntegrationVersionItemRepository extends Repository implements Integration
      */
     public function updateAll(array $values, int $parentId): IntegrationVersionItemRepositoryInterface
     {
-        $this->getModel()
-            ->where('parent_id', '=', $parentId)
-            ->update($values);
+        $lastId = 0;
+
+        do {
+            $updatedRows = $this->getModel()
+                ->where('parent_id', '=', $parentId)
+                ->where('id', '>', $lastId)
+                ->orderBy('id')
+                ->limit(1000)
+                ->get(['id']);
+
+            if ($updatedRows->isEmpty()) {
+                break;
+            }
+
+            $ids = $updatedRows->pluck('id')->toArray();
+
+            $this->getModel()
+                ->whereIn('id', $ids)
+                ->update($values);
+
+            $lastId = max($ids);
+        } while (count($ids) === 1000);
 
         return $this;
     }
 
     public function setStatusDeletedIfNotSuccess(int $parentId, string $identityValue = ''): IntegrationVersionItemRepositoryInterface
     {
-        $queryBuilder = $this->getModel()
-            ->where('parent_id', '=', $parentId)
-            ->where('status', '!=', IntegrationVersionItemInterface::STATUS_SUCCESS);
+        do {
+            $queryBuilder = $this->getModel()
+                ->where('parent_id', '=', $parentId)
+                ->where('status', '!=', IntegrationVersionItemInterface::STATUS_SUCCESS);
 
-        if($identityValue) {
-            $queryBuilder->where('identity_value', '=', $identityValue);
-        }
+            if($identityValue) {
+                $queryBuilder->where('identity_value', '=', $identityValue);
+            }
 
-        $queryBuilder->update([
-            'status' => IntegrationVersionItemInterface::STATUS_DELETED
-        ]);
+            $updated = $queryBuilder
+                ->limit(1000)
+                ->update([
+                    'status' => IntegrationVersionItemInterface::STATUS_DELETED
+                ]);
+        } while ($updated > 0);
+
 
         return $this;
     }
