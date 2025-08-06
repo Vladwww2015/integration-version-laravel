@@ -83,6 +83,22 @@ class IntegrationVersionItemRepository extends Repository implements Integration
         return $query->get('identity_value');
     }
 
+    public function getIdentitiesTotalForNewestVersions(int $parentId, string $oldExternalHash, string $oldHashDateTime): int
+    {
+        /**
+         * @var $model \IntegrationHelper\IntegrationVersionLaravel\Models\IntegrationVersionItem
+         */
+        $query = $this->getModel()
+            ->where('parent_id', '=', $parentId)
+            ->where('version_hash', '!=', $oldExternalHash)
+            ->where('status', '=', IntegrationVersionItem::STATUS_SUCCESS)
+            ->where('hash_date_time', '>', $oldHashDateTime);
+
+
+        return $query->count();
+    }
+
+
     /**
      * @param array $values
      * @param array $uniqueBy
